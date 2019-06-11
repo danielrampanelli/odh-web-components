@@ -3,6 +3,8 @@
     "@polymer/paper-spinner": "^3.0.2",
     "@vaadin/vaadin-dialog": "^2.2.1",
     "@vaadin/vaadin-grid": "^5.4.4",
+    "@vaadin/vaadin-text-field": "^2.4.5",
+    "geolib": "^3.0.4",
     "lit-element": "^2.2.0"
   }
 }

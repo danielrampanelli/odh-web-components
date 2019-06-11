@@ -1,7 +1,9 @@
 import { LitElement, html } from 'lit-element'
 import '@polymer/paper-spinner/paper-spinner.js'
 import '@vaadin/vaadin-dialog/vaadin-dialog.js'
+import '@vaadin/vaadin-text-field/vaadin-text-field.js'
 import { getBeacons, getNearestPOI } from './api.js'
+import { searchBeacons } from './search.js'
 
 class BeaconPoisMapView extends LitElement {
 
@@ -29,12 +31,24 @@ class BeaconPoisMapView extends LitElement {
           transform: translate(-50%, -50%);
         }
 
+        #search {
+          background: #ffffff;
+          padding: 0;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          width: 240px;
+          z-index: 750;
+        }
+
         #map {
           height: 100%;
+          z-index: 500;
         }
       </style>
       <paper-spinner id="spinner"></paper-spinner>
       <vaadin-dialog id="dialog" theme="beacon"></vaadin-dialog>
+      <vaadin-text-field id="search" placeholder="Search" clear-button-visible></vaadin-text-field>
       <div id="map"></div>
       <dom-module id="beacon-dialog-overlay-styles" theme-for="vaadin-dialog-overlay">
         <template>
@@ -54,6 +68,7 @@ class BeaconPoisMapView extends LitElement {
 
     const spinner = root.getElementById('spinner')
     const dialog = root.getElementById('dialog')
+    const search = root.getElementById('search')
     const mapElement = root.getElementById('map')
 
     dialog.renderer = (root, dialog) => {
@@ -99,13 +114,45 @@ class BeaconPoisMapView extends LitElement {
       document.getElementById('poi-position').textContent = infos[0].Latitude + ', ' + infos[0].Longitude
     }
 
+    search.onchange = () => {
+      const bounds = L.latLngBounds()
+
+      for (var id in self.markers) {
+        self.markers[id].removeFrom(self.map)
+      }
+
+      let results = searchBeacons(self.beacons, search.value)
+
+      if (!!results) {
+        results.forEach((match) => {
+          let marker = self.markers[match.id]
+
+          marker.addTo(self.map)
+          bounds.extend(marker.getLatLng())
+        })
+      } else {
+        for (var id in self.markers) {
+          self.markers[id].addTo(self.map)
+          bounds.extend(self.markers[id].getLatLng())
+        }
+      }
+
+      if (bounds.isValid()) {
+        self.map.fitBounds(bounds)
+      }
+    }
+
     spinner.active = true
-    mapElement.style.display = 'none'
+    search.style.visibility = 'hidden'
+    mapElement.style.visibility = 'hidden'
 
     self.beacons = await getBeacons()
 
     spinner.style.display = 'none'
-    mapElement.style.display = 'block'
+    search.style.visibility = 'visible'
+    mapElement.style.visibility = 'visible'
+
+    self.markers = []
 
     self.map = L.map(mapElement, {
       zoomControl: true
@@ -122,16 +169,20 @@ class BeaconPoisMapView extends LitElement {
     self.beacons.forEach((beacon) => {
       const coordinate = [ beacon.latitude, beacon.longitude ]
 
-      L.marker(coordinate, {
+      let marker = L.marker(coordinate, {
         title: beacon.name
       }).on('click', async () => {
         let poi = await getNearestPOI(beacon.latitude, beacon.longitude)
         dialog.beacon = beacon
         dialog.poi = poi
         dialog.opened = true
-      }).addTo(self.map)
+      })
+
+      marker.addTo(self.map)
 
       bounds.extend(coordinate)
+
+      self.markers[beacon.id] = marker
     })
 
     self.map.fitBounds(bounds)
