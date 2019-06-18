@@ -170,6 +170,11 @@ class BeaconPoisMapView extends LitElement {
       const coordinate = [ beacon.latitude, beacon.longitude ]
 
       let marker = L.marker(coordinate, {
+        icon: L.icon({
+          iconUrl: '/marker.svg',
+          iconSize: [24, 24],
+          iconAnchor: [12, 24]
+        }),
         title: beacon.name
       }).on('click', async () => {
         let poi = await getNearestPOI(beacon.latitude, beacon.longitude)
