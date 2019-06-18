@@ -1,5 +1,5 @@
 export async function getBeacons() {
-  let response = await fetch('http://127.0.0.1:9020/beacons', {
+  let response = await fetch('https://cors.io/?https://api.beacon.bz.it/v1/infos', {
     method: 'GET',
     headers: new Headers({
       'Accept': 'application/json'
@@ -12,7 +12,7 @@ export async function getBeacons() {
 }
 
 export async function getNearestPOI(latitude, longitude) {
-  let response = await fetch('http://127.0.0.1:9020/pois?latitude=' + latitude + '&longitude=' + longitude, {
+  let response = await fetch('https://cors.io/?https://service.suedtirol.info/api/ODHActivityPoi?pagesize=1&latitude=' + latitude + '&longitude=' + longitude + '&radius=50', {
     method: 'GET',
     headers: new Headers({
       'Accept': 'application/json'
