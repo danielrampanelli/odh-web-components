@@ -15,6 +15,7 @@ class BeaconPoisMapView extends LitElement {
     return html`
       <style>
         @import url('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css');
 
         :host {
           display: block;
@@ -44,6 +45,28 @@ class BeaconPoisMapView extends LitElement {
         #map {
           height: 100%;
           z-index: 500;
+        }
+
+        #map .marker-cluster {
+          background-clip: padding-box;
+          background-color: #ffffff;
+          background-color: rgba(255, 255, 255, 0.75);
+          border-radius: 20px;
+        }
+
+        #map .marker-cluster div {
+          background-color: #29A8E0;
+          border-radius: 15px;
+          height: 30px;
+          margin-left: 5px;
+          margin-top: 5px;
+          text-align: center;
+          width: 30px;
+        }
+
+        #map .marker-cluster span {
+          color: #ffffff;
+          line-height: 30px;
         }
       </style>
       <paper-spinner id="spinner"></paper-spinner>
@@ -118,7 +141,7 @@ class BeaconPoisMapView extends LitElement {
       const bounds = L.latLngBounds()
 
       for (var id in self.markers) {
-        self.markers[id].removeFrom(self.map)
+        self.clusters.removeLayer(self.markers[id])
       }
 
       let results = searchBeacons(self.beacons, search.value)
@@ -127,18 +150,20 @@ class BeaconPoisMapView extends LitElement {
         results.forEach((match) => {
           let marker = self.markers[match.id]
 
-          marker.addTo(self.map)
+          self.clusters.addLayer(marker)
           bounds.extend(marker.getLatLng())
         })
       } else {
         for (var id in self.markers) {
-          self.markers[id].addTo(self.map)
+          self.clusters.addLayer(self.markers[id])
           bounds.extend(self.markers[id].getLatLng())
         }
       }
 
       if (bounds.isValid()) {
-        self.map.fitBounds(bounds)
+        self.map.fitBounds(bounds, {
+          padding: [24, 24]
+        })
       }
     }
 
@@ -153,6 +178,11 @@ class BeaconPoisMapView extends LitElement {
     mapElement.style.visibility = 'visible'
 
     self.markers = []
+
+    self.clusters = L.markerClusterGroup({
+      disableClusteringAtZoom: 12,
+      maxClusterRadius: 32
+    })
 
     self.map = L.map(mapElement, {
       zoomControl: true
@@ -183,14 +213,18 @@ class BeaconPoisMapView extends LitElement {
         dialog.opened = true
       })
 
-      marker.addTo(self.map)
+      self.clusters.addLayer(marker)
 
       bounds.extend(coordinate)
 
       self.markers[beacon.id] = marker
     })
 
-    self.map.fitBounds(bounds)
+    self.map.addLayer(self.clusters)
+    
+    self.map.fitBounds(bounds, {
+      padding: [24, 24]
+    })
   }
 
 }
