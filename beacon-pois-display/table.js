@@ -15,7 +15,8 @@ class BeaconPoisTableView extends LitElement {
     return html`
       <style>
         :host {
-          display: block;
+          display: flex;
+          flex-flow: column;
           height: 100%;
           min-height: 320px;
           position: relative;
