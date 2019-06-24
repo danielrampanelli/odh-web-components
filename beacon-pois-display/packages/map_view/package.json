@@ -1,0 +1,25 @@
+{
+  "name": "beacon-pois-display-map",
+  "version": "0.0.1",
+  "description": "Map-based component listing all the beacons and their associated nearest point-of-interest.",
+  "author": "danielrampanelli <hello@danielrampanelli.com>",
+  "private": true,
+  "main": "./src/map.js",
+  "dependencies": {
+    "@polymer/paper-spinner": "^3.0.2",
+    "@vaadin/vaadin-dialog": "^2.2.1",
+    "@vaadin/vaadin-text-field": "^2.4.5",
+    "beacon-pois-display-core": "0.0.1",
+    "lit-element": "^2.2.0"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^3.0.0",
+    "svg-inline-loader": "^0.8.0",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  }
+}

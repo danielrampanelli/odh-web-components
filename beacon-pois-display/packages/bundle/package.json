@@ -1,0 +1,21 @@
+{
+  "name": "beacon-pois-display-bundle",
+  "version": "0.0.1",
+  "description": "Bundle containing all views/components.",
+  "author": "danielrampanelli <hello@danielrampanelli.com>",
+  "private": true,
+  "dependencies": {
+    "beacon-pois-display-table": "0.0.1",
+    "beacon-pois-display-map": "0.0.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^3.0.0",
+    "svg-inline-loader": "^0.8.0",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  }
+}

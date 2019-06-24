@@ -1,10 +1,20 @@
 {
+  "name": "beacon-pois-display",
+  "version": "0.0.1",
+  "description": "Collection of webcomponents aimed to display and allow browsing of beacon data related to the 'BEACON SÜDTIROL - ALTO ADIGE' project.",
+  "author": "danielrampanelli <hello@danielrampanelli.com>",
+  "private": true,
   "dependencies": {
-    "@polymer/paper-spinner": "^3.0.2",
-    "@vaadin/vaadin-dialog": "^2.2.1",
-    "@vaadin/vaadin-grid": "^5.4.4",
-    "@vaadin/vaadin-text-field": "^2.4.5",
-    "geolib": "^3.0.4",
-    "lit-element": "^2.2.0"
-  }
+  },
+  "devDependencies": {
+    "lerna": "^3.15.0"
+  },
+  "scripts": {
+    "setup": "bin/setup.sh",
+    "build": "bin/build.sh",
+    "serve": "bin/serve.sh"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

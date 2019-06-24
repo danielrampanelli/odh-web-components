@@ -1,0 +1,11 @@
+{
+  "name": "beacon-pois-display-core",
+  "version": "0.0.1",
+  "description": "Core package containing code used by the various views and components.",
+  "author": "danielrampanelli <hello@danielrampanelli.com>",
+  "private": true,
+  "main": "./src/index.js",
+  "dependencies": {
+    "geolib": "^3.0.4"
+  }
+}

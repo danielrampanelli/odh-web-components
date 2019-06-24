@@ -1,0 +1,25 @@
+{
+  "name": "beacon-pois-display-table",
+  "version": "0.0.1",
+  "description": "Component providing list of all the beacons.",
+  "author": "danielrampanelli <hello@danielrampanelli.com>",
+  "private": true,
+  "main": "./src/table.js",
+  "dependencies": {
+    "@polymer/paper-spinner": "^3.0.2",
+    "@vaadin/vaadin-grid": "^5.4.4",
+    "@vaadin/vaadin-text-field": "^2.4.5",
+    "beacon-pois-display-core": "0.0.1",
+    "lit-element": "^2.2.0"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^3.0.0",
+    "svg-inline-loader": "^0.8.0",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  }
+}

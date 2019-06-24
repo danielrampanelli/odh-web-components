@@ -2,8 +2,7 @@ import { LitElement, html } from 'lit-element'
 import '@polymer/paper-spinner/paper-spinner.js'
 import '@vaadin/vaadin-grid/vaadin-grid.js'
 import '@vaadin/vaadin-text-field/vaadin-text-field.js'
-import { getBeacons } from './api.js'
-import { searchBeacons } from './search.js'
+import { getBeacons, getNearestPOI, searchBeacons } from 'beacon-pois-display-core'
 
 class BeaconPoisTableView extends LitElement {
 
